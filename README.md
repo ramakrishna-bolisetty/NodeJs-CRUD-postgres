@@ -28,4 +28,8 @@ The service should adhere to 3-layer architecture principles (https://softwareon
 2. PostgreSQL database is installed and Users table with some seed data is added to it.
 3. Some User CRUD REST methods are implemented to store/retrieve data from database. Code quality is not good.
 4. Task 3.1 is fulfilled to the full extent. All User REST methods get/save data to real database instead of memory.
+<<<<<<< HEAD
 5. Task 3.2 is fulfilled to the full extent. All components are correctly named and splitted by folders mentioned in Task 3.2.
+=======
+5. Task 3.2 is fulfilled to the full extent. All components are correctly named and splitted by folders mentioned in Task 3.2.
+>>>>>>> 02efce85321c758b56db34b57bdbc6c267a8d876
