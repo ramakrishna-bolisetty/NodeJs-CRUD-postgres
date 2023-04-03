@@ -1,95 +1,96 @@
-const services=require('../../services/index');
+const services = require('../../services/index');
 const { validateSchema } = require('../../services/validator');
+const {SUCCESS,ERROR}=require('../config.js')
 
-async function findOne(req,res){
-    const userId=req.params.id;
+async function findOne(req, res) {
+    const userId = req.params.id;
     try {
-        const user=await services.findUserById(userId);
+        const user = await services.findUserById(userId);
         //
         res.send(user);
-        if(user && !user.isDeleted){
-            return res.status(200).json(user);
-        }else{
-            return res.status(400).json({"message":"User does not exist"});
+        if (user && !user.isDeleted) {
+            return res.status(SUCCESS).json(user);
+        } else {
+            return res.status(ERROR).json({ 'message': 'User does not exist'});
         }
     } catch (error) {
-        return res.status(400).json({"message":"Error in finding user"})
+        return res.status(ERROR).json({ 'message': 'Error in finding user' })
     }
 
 }
 
-async function createUser(req,res){
-    const userData=req.body;
+async function createUser(req, res) {
+    const userData = req.body;
     const { error } = validateSchema(userData);
     if (error) {
         console.log(error);
-        res.status(400).json(error.details);
+        res.status(ERROR).json(error.details);
         return;
     }
     try {
         const newUser = await services.createUser(userData);
-        return res.status(200).json(newUser);
+        return res.status(SUCCESS).json(newUser);
     } catch (error) {
-        return res.status(400).json(error.errors[0].message);
+        return res.status(ERROR).json(error.errors[0].message);
     }
 }
 
-async function updateUser(req,res){
-    const userData=req.body;
-    const userId=req.params.id;
+async function updateUser(req, res) {
+    const userData = req.body;
+    const userId = req.params.id;
     try {
-        const user=await services.findUserById(userId);
-        if(user && !user.isDeleted){
-            user.login=userData.login;
-            user.password=userData.password;
-            user.age=userData.age;
-            user.isDeleted=userData.isDeleted;
+        const user = await services.findUserById(userId);
+        if (user && !user.isDeleted) {
+            user.login = userData.login;
+            user.password = userData.password;
+            user.age = userData.age;
+            user.isDeleted = userData.isDeleted;
             await user.save();
-            return res.status(200).json(user);
+            return res.status(SUCCESS).json(user);
         }
-        else{
-            return res.status(400).json({"message":"User does not exist"});
+        else {
+            return res.status(ERROR).json({ 'message': 'User does not exist' });
         }
     } catch (error) {
-        return res.status(400).json({"message":"Error in updating user"})
+        return res.status(ERROR).json({ 'message': 'Error in updating user' })
     }
 }
 
-async function deleteUser(req,res){
+async function deleteUser(req, res) {
     // Soft deleting the user
-    const userId=req.params.id;
+    const userId = req.params.id;
     try {
-        const user=await services.findUserById(userId);
-        if(user && !user.isDeleted){
-            user.isDeleted=true;
+        const user = await services.findUserById(userId);
+        if (user && !user.isDeleted) {
+            user.isDeleted = true;
             await user.save();
-            return res.status(200).json({"message":"User Deleted successfully."});
-        }else{
-            return res.status(400).json({"message":"User does not exist"});
+            return res.status(SUCCESS).json({ 'message': 'User Deleted successfully.' });
+        } else {
+            return res.status(ERROR).json({ 'message': 'User does not exist' });
         }
     } catch (error) {
-        return res.status(400).json({"message":"Error in deleting user"})
+        return res.status(ERROR).json({ 'message': 'Error in deleting user' })
     }
 }
 
-async function getAutoSuggestUsers(req,res){
-    const subString=req.params.subString;
+async function getAutoSuggestUsers(req, res) {
+    const subString = req.params.subString;
     const limit = req.params.limit;
     try {
-        const users=await services.findAllUsers(subString,limit);
-        if(users){
-            return res.status(200).json(users);
-        }else{
-            return res.status(400).json({"message":"Users does not exist"});
+        const users = await services.findAllUsers(subString, limit);
+        if (users) {
+            return res.status(SUCCESS).json(users);
+        } else {
+            return res.status(ERROR).json({ 'message': 'Users does not exist' });
         }
     } catch (error) {
-        return res.status(400).json({"message":"Error in retreiving auto suggestions"})
+        return res.status(ERROR).json({ 'message': 'Error in retreiving auto suggestions' })
     }
 }
 
 
 
-module.exports={
+module.exports = {
     findOne,
     createUser,
     updateUser,

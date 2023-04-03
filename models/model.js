@@ -1,51 +1,51 @@
-const {DataTypes}=require('sequelize');
-const sequelize=require('../data-access/database.js');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../data-access/database.js');
 
-const User = sequelize.define("users",{
-    id:{
-        type:DataTypes.UUID,
+const User = sequelize.define("users", {
+    id: {
+        type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        primaryKey:true,
+        primaryKey: true,
     },
-    login:{
-        type:DataTypes.STRING,
-        validate:{
+    login: {
+        type: DataTypes.STRING,
+        validate: {
             notNull: true,
             notEmpty: true,
         },
-        allowNull:false
+        allowNull: false
     },
-    password:{
-        type:DataTypes.STRING,
-        validate:{
+    password: {
+        type: DataTypes.STRING,
+        validate: {
             notNull: true,
             isAlphanumeric: {
-                msg:"password must contain letters and numbers"
+                msg: "password must contain letters and numbers"
             },
         },
-        allowNull:false
+        allowNull: false
     },
-    age:{
-        type:DataTypes.INTEGER,
-        validate:{
+    age: {
+        type: DataTypes.INTEGER,
+        validate: {
             notNull: true,
-            min:4,
-            max:130,
-            isInt:{
-                msg:"Age must be number"
+            min: 4,
+            max: 130,
+            isInt: {
+                msg: "Age must be number"
             },
         },
-        allowNull:false
+        allowNull: false
     },
-    isDeleted:{
-        type:DataTypes.BOOLEAN,
-        validate:{
+    isDeleted: {
+        type: DataTypes.BOOLEAN,
+        validate: {
             notNull: true
         },
-        allowNull:false
+        allowNull: false
     }
-},{
+}, {
     timestamps: false
-  });
+});
 
-module.exports=User;
+module.exports = User;

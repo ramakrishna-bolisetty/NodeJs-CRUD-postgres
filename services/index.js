@@ -1,36 +1,36 @@
-const User=require('../models/model')
+const User = require('../models/model')
 const { v4: uuidv4 } = require('uuid');
 const { Op } = require("sequelize");
 
 
-const createUser=(userData) => {
-    
+const createUser = (userData) => {
+
     return User.create({
-        id:uuidv4(),
-        login:userData.login,
-        password:userData.password,
-        age:userData.age,
-        isDeleted:userData.isDeleted
+        id: uuidv4(),
+        login: userData.login,
+        password: userData.password,
+        age: userData.age,
+        isDeleted: userData.isDeleted
     });
 }
 
-const findUserById=(userId) => {
+const findUserById = (userId) => {
     return User.findByPk(userId);
 }
 
-const findAllUsers= (subString,limit) => {
+const findAllUsers = (subString, limit) => {
     return User.findAll({
-        where:{
+        where: {
             login: {
-                [Op.substring]:subString
+                [Op.substring]: subString
             },
-            isDeleted:false
+            isDeleted: false
         },
-        limit:limit
+        limit: limit
     });
 }
 
-module.exports={
+module.exports = {
     createUser,
     findUserById,
     findAllUsers
